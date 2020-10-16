@@ -28,6 +28,7 @@ function diamondPattern(rows){
     
 }
 for(let i=2;i<=10;i++){   
+    
 diamondPattern(i);
 }
     
