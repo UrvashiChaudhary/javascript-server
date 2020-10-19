@@ -1,25 +1,28 @@
 function primeNumber(num){
-    let flag=0;
-    let i;
-    if(num==0||num==1){
-        console.log(" composite");
+    let flag=true;
+    if(num==0 || num==1){
+        console.log("neither prime nor composite");
+    }
+    let lt=Math.ceil(num/2);
+    
+    for(let i=2;i<=lt;i++){
+        if(num%i==0){
+            flag=false;
+            break;
+        }
+        
+    }
+    if(flag==true){
+        console.log("Prime");
     }
     else{
-        for( i=2;i<num/2;i++){
-            if(num%i==0){
-                //console.log("not prime");
-                flag=1;
-                n=i;
-                break;
-            }
-            
-        }
-        if(flag==0){
-            console.log("prime");
-        }
-        else{
-            console.log("not prime");
-        }
+        console.log("not prime");
     }
 }
-primeNumber(99);
+
+
+//primeNumber(2);
+//primeNumber(3);
+primeNumber(4);
+//primeNumber(5);
+//primeNumber(6);
