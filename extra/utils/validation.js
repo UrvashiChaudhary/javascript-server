@@ -7,14 +7,14 @@ const users = [{
         reviewerEmail:'mohammad.adil@successive.tech',
     },
     {
-        traineeEmail:'i@gmail.com',
-        reviewerEmail:'jfjjjjf',
+        traineeEmail:'trainee@gmail.com',
+        reviewerEmail:'user@gmail.com',
     },
 ];
 
 
 function validateEmail(input){
-    let correct = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    let correct = /^[a-zA-Z0-9._-]+@[successive]+\.[tech]{2,4}$/;
     
     return correct.test(input);
 }
@@ -23,32 +23,28 @@ function validateEmail(input){
 
 
 function validateUser(users){
-    let valid=0;
-    let invalid=0;
-    let v_users="";
-    let i_users="";
-    let len=users.length;
-    //console.log(len);
-    for(let i=0;i<len;i++){
-        const {traineeEmail,reviewerEmail} = users[i];
-        if(validateEmail(traineeEmail) && validateEmail(reviewerEmail)){
-            console.log("true",{traineeEmail,reviewerEmail});
-            valid++;
-            v_users+="("+traineeEmail+" , "+reviewerEmail+") ";
+    let v_users=[];
+    let i_users=[];
+    users.forEach((users)=> {
+        const {traineeEmail,reviewerEmail}= users;
+        if(validateEmail(traineeEmail)&&validateEmail(reviewerEmail)){
+            v_users.push(traineeEmail+", "+reviewerEmail);
         }
         else{
-            console.log("false",{traineeEmail,reviewerEmail});
-            invalid++;
-            i_users+="("+traineeEmail+" , "+reviewerEmail+") ";
+            i_users.push(traineeEmail+", "+reviewerEmail);
         }
-    }
-   
-    console.log("Number of valid emails",valid);
-    console.log("Valid Users:",v_users);
-    console.log("Number of invalid emails",invalid);
-    console.log("Invalid Users",i_users);
+
+        
+    });
+    
+    console.log("number of valid users",v_users.length);
+    console.log("Valid Users",v_users);
+    console.log();
+    console.log("number of invalid users",i_users.length);
+    console.log("invalid users",i_users);
     
 }
+    
 validateUser(users);
 
     
