@@ -1,15 +1,27 @@
+// import diamondPattern() and equilateralTriangle() from patterns/index
 import {diamondPattern, equilateralTriangle} from './patterns/index';
-// import{validateEmail,hasPermission} from './utils/index'
-//import{permissions} from './constants'
 diamondPattern(4);
 console.log();
 equilateralTriangle(4);
-console.log
-//validateEmail("urvashi@successive.tech");
-//validateEmail("905283904");
-//validateEmail(users);
 console.log();
 
+
+//import hasPermission and permissions from utils/index and constants.js respecively
+import {hasPermission} from './utils/index.js';
+import {permissions} from './constants.js';
+
+
+hasPermission(permissions.getUsers,"trainer","write");
+hasPermission(permissions.getUsers,"trainer","dlt");
+
+console.log();
+
+
+//import validateEmail() and validateUsers() from utils.index
+import{validateEmail} from './utils/index'
+import{validateUser} from './utils/index'
+
+//move users from permissions to extra.index
 const users = [{
     traineeEmail: 'trainee1@successive.tech',
     reviewerEmail: 'reviewer1@successive.tech',
@@ -24,8 +36,4 @@ const users = [{
     },
 ];
 
-
-import {hasPermission} from './utils/permissions.js';
-import {permissions} from './constants';
-hasPermission(permissions.getUsers,"trainer","write");
-hasPermission(permissions.getUsers,"trainer","dlt");
+validateUser(users);
