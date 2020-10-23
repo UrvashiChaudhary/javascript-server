@@ -13,11 +13,11 @@ const users = [{
 ];
 
 
-function validateEmail(input){
-    let correct = /^[a-zA-Z0-9._-]+@[successive]+\.[tech]{2,4}$/;
+// function validateEmail(input){
+//     let correct = /^[a-zA-Z0-9._-]+@[successive]+\.[tech]{2,4}$/;
     
-    return correct.test(input);
-}
+//     return correct.test(input);
+// }
 
 
 
@@ -45,11 +45,12 @@ function validateUser(users){
     
 }
     
-validateUser(users);
+//validateUser(users);
 
     
 
 
+import{validateEmail} from './helpers'
 
 //validateEmail("urvashi@successive.tech");
 //validateEmail("905283904");
