@@ -1,4 +1,4 @@
-export function equilateralTriangle(rows){
+export default function equilateralTriangle(rows){
 
     for(let i=1;i<=rows;i++){
         let sp="";
