@@ -1,0 +1,41 @@
+{
+  "name": "javascript-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1"
+  },
+  "husky":{
+    "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test",
+      "...": "..."
+    }
+  }},
+  "devDependencies": {
+    "husky": "^4.3.0",
+    "nodemon": "^2.0.6",
+    "tsc-watch": "^4.2.9",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node extra",
+    "start:extraTs": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
+    "nodemon": "nodemon ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UrvashiChaudhary/javascript-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UrvashiChaudhary/javascript-server/issues"
+  },
+  "homepage": "https://github.com/UrvashiChaudhary/javascript-server#readme"
+}
