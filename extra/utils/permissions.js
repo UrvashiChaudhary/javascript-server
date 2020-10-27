@@ -1,11 +1,3 @@
-let permissions={
-    'getUsers': {
-    all: ['head-trainer'],
-    read : ['trainee', 'trainer'],
-    write : ['trainer'],
-    delete: [],
-    },        
-}
 function hasPermission(moduleName,role,permissionType){
     if(!moduleName.hasOwnProperty(permissionType)){
         console.log("false");
@@ -18,10 +10,8 @@ function hasPermission(moduleName,role,permissionType){
         }
 }
         
+export {hasPermission}; //export function hasPermission() 
 
-hasPermission(permissions.getUsers,'trainee', 'read');
-hasPermission(permissions.getUsers,'traier','write');
-    
         
        
        

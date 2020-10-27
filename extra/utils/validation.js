@@ -1,26 +1,4 @@
-const users = [{
-    traineeEmail: 'trainee1@successive.tech',
-    reviewerEmail: 'reviewer1@successive.tech',
-    },
-    {
-        traineeEmail:'urvashi.chaudhary@successive.tech',
-        reviewerEmail:'mohammad.adil@successive.tech',
-    },
-    {
-        traineeEmail:'trainee@gmail.com',
-        reviewerEmail:'user@gmail.com',
-    },
-];
-
-
-function validateEmail(input){
-    let correct = /^[a-zA-Z0-9._-]+@[successive]+\.[tech]{2,4}$/;
-    
-    return correct.test(input);
-}
-
-
-
+import{validateEmail} from './helpers'
 
 function validateUser(users){
     let v_users=[];
@@ -44,12 +22,9 @@ function validateUser(users){
     console.log("invalid users",i_users);
     
 }
+export{validateUser};// export validateUser()
+export{validateEmail};//export validateEmail()
     
-validateUser(users);
-
-    
 
 
 
-//validateEmail("urvashi@successive.tech");
-//validateEmail("905283904");
