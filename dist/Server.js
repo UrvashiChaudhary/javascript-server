@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// create a class and define methods according to the ticket#39521
 const express = require("express");
 class Server {
     constructor(config) {
@@ -7,23 +8,23 @@ class Server {
         this.app = express();
     }
     bootstrap() {
-        this.setupRoutes();
+        this.setupRouts();
         return this;
     }
-    setupRoutes() {
+    setupRouts() {
         const { app } = this;
-        app.get('./health-check', (req, res, next) => {
-            res.send('I am OK');
+        app.get('/health-check', (req, res, next) => {
+            res.send("I am fine");
         });
         return this;
     }
     run() {
-        const { app, config: { port } } = this;
-        app.listen(port, (err) => {
+        const { app, config: { PORT } } = this;
+        app.listen(PORT, (err) => {
             if (err) {
                 console.log(err);
             }
-            console.log(`App is running,${port}`);
+            console.log(`App is running on port ${PORT}`);
         });
     }
 }

@@ -1,10 +1,6 @@
-import * as dotenv from 'dotenv';
-console.log(dotenv);
 import { IConfig } from './IConfig';
-
-const envVars = require('dotenv').config();
-console.log("Inside config", envVars);
-const config: IConfig = envVars.parsed;
-
-Object.freeze(config);
+const envVars = require ('dotenv').config()
+console.log("inside config" , envVars);
+const config = envVars.parsed;
 export default config;
+Object.freeze( config );
