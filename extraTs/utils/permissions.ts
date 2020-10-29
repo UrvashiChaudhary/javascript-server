@@ -1,4 +1,4 @@
-function hasPermission(moduleName,role:string,permissionType:string){
+function hasPermission(moduleName:object,role:string,permissionType:string):void{
     if(!moduleName.hasOwnProperty(permissionType)){
         console.log("false");
     }
