@@ -3,6 +3,8 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { notFoundHandler, errorHandler } from './libs/routes';
 import notFoundRoute from "./libs/routes/notFoundRoute";
+
+import routes from './router';
 class Server {
     app
     constructor(private config) {
@@ -26,6 +28,7 @@ class Server {
             res.send('I am fine');
         });
 
+        app.use('/api',routes);
         app.use(notFoundHandler);
         app.use(errorHandler);
 
