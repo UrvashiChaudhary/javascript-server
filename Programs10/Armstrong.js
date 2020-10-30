@@ -16,7 +16,7 @@ function Armstrong(num){
    }
    else{
        console.log("NOT ARMSTRONG");
-   }//CDATASection.length.toExponential
+   }
 
 }
 Armstrong(153);
