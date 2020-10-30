@@ -1,6 +1,6 @@
 import{validateEmail} from './helpers'
 
-function validateUser(users){
+function validateUser(users):void{
     let v_users: String[]=[];
     let i_users: string[]=[];
     users.forEach((users)=> {
@@ -13,7 +13,7 @@ function validateUser(users){
         }
 
         
-    });
+    }); 
     
     console.log("number of valid users",v_users.length);
     console.log("Valid Users",v_users);
