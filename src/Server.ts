@@ -1,7 +1,7 @@
 // create a class and define methods according to the ticket#39521
 import * as express from "express";
 class Server {
-app
+private app
 constructor( private config ) {
 this.app=express()
 }
@@ -17,6 +17,7 @@ res.send("I am fine");
 return this;
 }
 run() {
+    return this;
 const {app, config:{ PORT }}=this;
 app.listen(PORT,( err ) => {
 if( err ) {

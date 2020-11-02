@@ -2,5 +2,5 @@
 import Server from './Server';
 import config from './config/configuration';
 console.log("config is " , config);
-const server=new Server( { PORT :9000 } );
+const server=new Server( { PORT :config } );
 server.bootstrap().run();
