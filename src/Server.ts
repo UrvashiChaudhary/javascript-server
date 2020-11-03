@@ -18,12 +18,12 @@ return this;
 }
 run() {
 
-const {app, config:{ PORT }}=this;
-app.listen(PORT,( err ) => {
+const {app, config:{ port }}=this;
+app.listen(port,( err ) => {
 if( err ) {
 console.log( err );
 }
-console.log(`App is running on port ${ PORT }`);
+console.log(`App is running on port ${ port }`);
 })
 
 }
