@@ -4,8 +4,8 @@ config();
 import { IConfig } from './IConfig';
 const envVars : NodeJS.ProcessEnv = process.env;
 const configurations = Object.freeze({
-    env: envVars.node_env,
-    port: envVars.port,
+    env: envVars.NODE_ENV,
+    port: envVars.PORT,
 
 }) as IConfig;
 
