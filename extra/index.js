@@ -1,5 +1,5 @@
 // import diamondPattern() and equilateralTriangle() from patterns/index
-import {diamondPattern, equilateralTriangle} from './patterns/index';
+import {diamondPattern,equilateralTriangle} from './patterns/index';
 diamondPattern(4);
 console.log();
 equilateralTriangle(4);
@@ -37,3 +37,8 @@ const users = [{
 ];
 
 validateUser(users);
+
+
+
+
+

@@ -1,4 +1,4 @@
-export function diamondPattern(rows){
+export default function diamondPattern(rows){
 
     for(let i=1;i<=rows;i++){
         let sp="";

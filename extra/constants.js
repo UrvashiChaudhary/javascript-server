@@ -1,3 +1,5 @@
+//move permissions from permission.js to constants.js
+
 const permissions={
     'getUsers': {
     all: ['head-trainer'],
@@ -5,5 +7,6 @@ const permissions={
     write : ['trainer'],
     delete: [],
     },        
-}
+};
+//now  export permissions from constants.js
 export {permissions};
