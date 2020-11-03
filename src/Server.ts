@@ -1,5 +1,8 @@
-// create a class and define methods according to the ticket#39521
-import * as express from "express";
+// create a class and define methods according to the ticket#39522
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import { notFoundHandler, errorHandler } from './libs/routes';
+import notFoundRoute from "./libs/routes/notFoundRoute";
 class Server {
 private app
 constructor( private config ) {
@@ -14,7 +17,13 @@ const { app }=this;
 app.get('/health-check',( req, res, next ) => {
 res.send("I am fine");
 });
+app.use(notFoundHandler);
+app.use(errorHandler);
 return this;
+}
+initBodyParser() {
+    this.app.use(bodyParser.json())
+    this.app.use(bodyParser.urlencoded({ extended: false }))
 }
 run() {
 
