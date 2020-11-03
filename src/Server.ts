@@ -17,7 +17,12 @@ const { app }=this;
 app.get('/health-check',( req, res, next ) => {
 res.send("I am fine");
 });
+app.use(notFoundHandler);
+app.use(errorHandler);
 return this;
+}
+initBodyParser() {
+    this.app.use(bodyParser.json({ type: 'application/*+json' }))
 }
 run() {
 
