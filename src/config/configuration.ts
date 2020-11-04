@@ -1,6 +1,12 @@
+
+import { config } from 'dotenv';
+config();
 import { IConfig } from './IConfig';
-const envVars = require ('dotenv').config()
-console.log("inside config" , envVars);
-const config = envVars.parsed;
-export default config;
-Object.freeze( config );
+const envVars : NodeJS.ProcessEnv = process.env;
+const configurations = Object.freeze({
+    env: envVars.NODE_ENV,
+    port: envVars.PORT,
+
+}) as IConfig;
+
+export default configurations;

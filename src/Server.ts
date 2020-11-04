@@ -6,45 +6,41 @@ import notFoundRoute from "./libs/routes/notFoundRoute";
 
 import routes from './router';
 class Server {
-    app
-    constructor(private config) {
-        this.app = express()
-    }
-    bootstrap() {
-        this.setupRouts();
-        this.initBodyParser();
-        return this;
-    }
-    setupRouts() {
-        const { app } = this;
+private app
+constructor( private config ) {
+this.app=express()
+}
+bootstrap() {
+this.setupRouts()
+return this;
+}
+setupRouts() {
+const { app }=this;
+app.get('/health-check',( req, res, next ) => {
+res.send("I am fine");
+});
+app.use(notFoundHandler);
+app.use(errorHandler);
+return this;
+}
+initBodyParser() {
+    this.app.use(bodyParser.json())
+    this.app.use(bodyParser.urlencoded({ extended: false }))
+}
+run() {
 
-        app.use ((req, res, next) => {
-            console.log('Inside First MidleWare');
-            next()
-        });
-
-        app.use('/health-check', (req, res) => {
-            console.log('Inside Second MidleWare');
-            res.send('I am fine');
-        });
+const {app, config:{ port }}=this;
+app.listen(port,( err ) => {
+if( err ) {
+console.log( err );
+}
+console.log(`App is running on port ${ port }`);
+})
 
         app.use('/api',routes);
         app.use(notFoundHandler);
         app.use(errorHandler);
+}
 
-        return this;
-    }
-    initBodyParser() {
-        this.app.use(bodyParser.json({ type: 'application/*+json' }))
-    }
-    run() {
-        const { app, config: { PORT } } = this;
-        app.listen(PORT, (err) => {
-            if (err) {
-                console.log(err);
-            }
-            console.log(`App is running on port ${PORT}`);
-        })
-    }
 }
 export default Server;
