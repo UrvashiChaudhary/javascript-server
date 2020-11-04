@@ -38,6 +38,8 @@ const users: Iusers[] = [{
 
 validateUser(users);
 import {Iusers} from './interfaces'
+export { hasPermission}
+export { permissions} 
 
 
 

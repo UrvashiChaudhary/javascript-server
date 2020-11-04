@@ -5,10 +5,13 @@ import validationHandler from '../../libs/validationHandler';
 
 import validation from './validation'
 
+import { authMiddleWare }from '../../libs/routes'
+
 const traineeRouter = Router();
 
 traineeRouter.route('/')
-    .get(validationHandler(validation.get),traineeController.get)
+    .get(authMiddleWare('getUser', 'read'),validationHandler(validation.get),traineeController.get)
+    //.get(validationHandler(validation.get),traineeController.get)
     .post(validationHandler(validation.create),traineeController.create)
     .put(validationHandler(validation.update),traineeController.update)
     .delete(validationHandler(validation.delete),traineeController.update)
