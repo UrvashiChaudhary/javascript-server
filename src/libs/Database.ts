@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import seedData from './seedData';
     // console.log(mongoose);
 class Database {
     // static open(){
@@ -21,6 +22,7 @@ class Database {
                 reject(err);
                 return;
             }
+            seedData();
             resolve(undefined);
         });
     });
