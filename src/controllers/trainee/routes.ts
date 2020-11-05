@@ -5,7 +5,7 @@ import validationHandler from '../../libs/validationHandler';
 
 import validation from './validation'
 
-const traineeRouter = Router();
+const traineeRouter: Router = Router();
 
 traineeRouter.route('/')
     .get(validationHandler(validation.get),traineeController.get)
