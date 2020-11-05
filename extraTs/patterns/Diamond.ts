@@ -1,34 +1,33 @@
-export function diamondPattern(rows: number):void{
+export function diamondPattern(rows: number): void {
 
-    for(let i=1;i<=rows;i++){
-        let sp="";
-        for(let j=rows;j>=i;j--){
-            sp=sp+" ";
+    for (let i = 1; i <= rows; i++) {
+        let sp = '';
+        for (let j = rows; j >= i; j--) {
+            sp = sp + ' ';
         }
-        
-        for(let k=1;k<=i;k++){
-            sp=sp+"* ";
-            }
-            console.log(sp); 
+
+        for (let k = 1; k <= i; k++) {
+            sp = sp + '* ';
         }
-       
-    for(let i=rows;i>=1;i--){
-        let sp="";
-        for(let j=rows;j>=i;j--){
-            sp=sp+" ";
-            
+        console.log(sp);
+    }
+
+    for (let i = rows; i >= 1; i--) {
+        let sp = '';
+        for (let j = rows; j >= i; j--) {
+            sp = sp + ' ';
+
         }
-        for(let k=i;k>=1;k--){
-            sp=sp+"* ";
+        for (let k = i; k >= 1; k--) {
+            sp = sp + '* ';
         }
-       
-        console.log(sp); 
+
+        console.log(sp);
 
     }
-    
+
 }
-/*for(let i=2;i<=10;i++){   
-    
+/*for(let i=2;i<=10;i++){
+
 diamondPattern(i);
 }*/
-    

@@ -1,6 +1,6 @@
 interface IConfig {
-    port : string;
-    env : string;
-    mongo_url :string;
-    }
-    export { IConfig };
+    port: string;
+    env: string;
+    MONGO_URL: string;
+}
+export { IConfig };

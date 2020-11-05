@@ -1,5 +1,3 @@
-
-     
 export default ( config ) => ( req, res, next  ) => {
     const errors = [];
     console.log( 'Inside ValidationHandler Middleware' );
@@ -64,11 +62,11 @@ export default ( config ) => ( req, res, next  ) => {
             }
         }
         // Checking for default
-        if (obj.default) {
+        /* if (obj.default) {
             if (isNull(values[0])) {
-                values[0] === obj.default;
+                /values[0] === obj.default;
             }
-        }
+        }*/
         // Checking for number
         if (obj.number) {
             if (isNaN(values[0]) || values[0] === undefined) {
