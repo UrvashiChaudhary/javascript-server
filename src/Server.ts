@@ -19,6 +19,7 @@ const { app }=this;
 app.get('/health-check',( req, res, next ) => {
 res.send("I am fine");
 });
+app.use('/api',routes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 return this;
@@ -36,11 +37,6 @@ console.log( err );
 }
 console.log(`App is running on port ${ port }`);
 })
-
-        app.use('/api',routes);
-        app.use(notFoundHandler);
-        app.use(errorHandler);
 }
-
 }
 export default Server;
