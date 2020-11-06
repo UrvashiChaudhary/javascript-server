@@ -3,6 +3,8 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { notFoundHandler, errorHandler } from './libs/routes';
 import notFoundRoute from "./libs/routes/notFoundRoute";
+
+import routes from './router';
 class Server {
 private app
 constructor( private config ) {
@@ -35,6 +37,9 @@ console.log( err );
 console.log(`App is running on port ${ port }`);
 })
 
+        app.use('/api',routes);
+        app.use(notFoundHandler);
+        app.use(errorHandler);
 }
 
 }
