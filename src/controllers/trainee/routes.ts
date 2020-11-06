@@ -7,7 +7,8 @@ import validation from './validation'
 
 import { authMiddleWare }from '../../libs/routes'
 
-const traineeRouter = Router();
+
+const traineeRouter: Router = Router();
 
 traineeRouter.route('/')
     .get(authMiddleWare('getUser', 'read'),validationHandler(validation.get),traineeController.get)
