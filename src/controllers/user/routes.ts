@@ -1,21 +1,20 @@
-import { Router } from 'express';
-import UserController from './Controller';
-
+// create a routes.ts file
+import { Router } from "express";
+import UserController from "./Controller";
 import validationHandler from '../../libs/validationHandler';
-
- import validation from './validation';
+import validation from './validation';
+import authMoiddleWare from "../../libs/routes/authMiddleware";
 
 const UserRouter = Router();
 
-UserRouter.route('/')
-    .get(validationHandler(validation.get),UserController.get)
-    .post(validationHandler(validation.create),UserController.create)
-    .put(validationHandler(validation.update),UserController.update)
-    .delete(validationHandler(validation.delete),UserController.update);
-// .get((req, res)=>{console.log("Inside get route"); res.send("Inside get route")})
-// .post((req, res)=>{console.log("Inside post route"); res.send("Inside post route")})
-// .put((req, res)=>{console.log("Inside put route"); res.send("Inside put route")})
-// .delete((req, res)=>{console.log("Inside delete route"); res.send("Inside delete route")})
+UserRouter.route('/login')
+    .post(authMoiddleWare())
 
 
+/*UserRouter.route('/')
+    .get(validationHandler(validation.get), UserController.get)
+    .post(validationHandler(validation.create), UserController.create)
+    .put(validationHandler(validation.update), UserController.update)
+    .delete( validationHandler(validation.delete),UserController.delete);
+*/
 export default UserRouter;
