@@ -1,16 +1,16 @@
-//move permissions from permission.js to constants.js
+// move permissions from permission.js to constants.js
 
 
 
-const permissions: Ipermission={
+const permissions: Ipermission = {
     'getUsers': {
-    all: ['head-trainer'],
-    read : ['trainee', 'trainer'],
-    write : ['trainer'],
-    delete: [],
-    },        
+        all: ['head-trainer'],
+        read: ['trainee', 'trainer'],
+        write: ['trainer'],
+        delete: [],
+    },
 };
-import { Ipermission } from "./interfaces";
+import { Ipermission } from './interfaces';
 
-//now  export permissions from constants.js
-export {permissions};
+// now  export permissions from constants.js
+export { permissions };

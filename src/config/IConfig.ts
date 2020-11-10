@@ -1,5 +1,5 @@
 interface IConfig {
-    port : string;
-    env : string;
-    }
-    export { IConfig };
+    port: string;
+    env: string;
+}
+export { IConfig };

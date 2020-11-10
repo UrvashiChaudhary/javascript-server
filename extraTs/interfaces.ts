@@ -1,14 +1,14 @@
-interface Ipermission{
-    'getUsers' :{
-        all: String[];
-        read: String[];
-        write:String[];
-        delete:String[];
-    }
+interface Ipermission {
+    'getUsers': {
+        all: string[];
+        read: string[];
+        write: string[];
+        delete: string[]
+    };
 }
-interface Iusers{
+interface Iusers {
     traineeEmail: string;
     reviewerEmail: string;
-};
-export{Ipermission};
-export {Iusers};
+}
+export { Ipermission };
+export { Iusers };
