@@ -8,7 +8,7 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return String( mongoose.Types.ObjectId() );
     }
     constructor(){
-super(userModel);
+    super(userModel);
     }
     public findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
         return userModel.findOne( query ).lean();
@@ -21,6 +21,7 @@ super(userModel);
         const id = UserRepository.generateObjectId();
         const model = new userModel({
             _id: id,
+            originalId: id,
             ...data,
         });
         return model.save();

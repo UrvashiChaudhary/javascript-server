@@ -15,7 +15,9 @@ export default class VersionableRepository <D extends mongoose.Document, M exten
         const model = new this.model({
             ...options,
             _id: id,
-            originalId: id
+            originalId: id,
+            createdAt: Date.now(),
+            createdBy: id
 
         });
         return await model.save();
