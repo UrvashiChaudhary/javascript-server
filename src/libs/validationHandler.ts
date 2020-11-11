@@ -15,6 +15,7 @@ export default (config) => (req, res, next) => {
         });
         // Checking for In i.e Body or Query
         if (Object.keys(req[obj.in]).length === 0) {
+            
             errors.push({
                 key: { key },
                 location: obj.in,
@@ -24,13 +25,16 @@ export default (config) => (req, res, next) => {
         // Checking for required
         console.log('values is', values);
         if (obj.required) {
+            console.log("11");
             if (isNull(values[0])) {
+                console.log("22");
                 errors.push({
                     key: { key },
                     location: obj.in,
                     message: obj.errorMessage || `${key} is required`,
                 });
             }
+            console.log("33");
         }
         // Checking for string
         if (obj.string) {

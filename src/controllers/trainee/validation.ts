@@ -3,7 +3,7 @@ const config = {
 
         id:
         {
-            required: true,
+            required: false,
             string: true,
             in: ['body'],
             custom: (value) =>  {

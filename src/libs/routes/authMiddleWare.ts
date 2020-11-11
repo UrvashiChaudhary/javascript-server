@@ -1,19 +1,43 @@
 import * as jwt from 'jsonwebtoken';
+import configuration from '../../config/configuration';
 import { hasPermission } from '../permissions';
 import { permissions } from '../constants';
-export default (module, permissionType) => (req, res, next) => {
+import { Request, Response, NextFunction } from 'express';
+export default (moduleName: any, permissionType: any) => (req: Request, res: Response, next: NextFunction) => {
+    console.log(' AUTHMIDDLEWARE ', moduleName, permissionType);
     try {
-        console.log('The config is: ', module, permissionType);
-        console.log('Header is: ', req.headers, ['authorization']);
+       
+        // console.log('The config is: ', module, permissionType);
         const token = req.headers.authorization;
-        const decodeUser = jwt.verify(token, 'qwertyuiopasdfghjklzxcvbnm123456');
-        console.log('user', decodeUser);
-        const a = decodeUser.Role;
-        hasPermission(permissions.getUsers, a, permissionType);
-        // let a =decodeUser.req.headers.get("Role");
-        // console.log("jee");
-        // console.log("value of Role: ",decodeUser.Role);
-        // console.log("hii");
+        const { key } = configuration;
+        const decodeUser = jwt.verify(token, key);
+        console.log('decodeUser', decodeUser);
+        const a: string = decodeUser.role;
+       
+        // if (!decodeUser) {
+        //     return next({
+        //         staus: 403,
+        //         error: 'Unauthorized Access',
+        //         message: 'Unauthorized Access'
+        //     });
+        // }
+        //hasPermission(permissions.getUsers,a,permissionType);
+        const permissionCheck = hasPermission(permissions.getUsers, a, permissionType);
+        console.log(permissionCheck);
+
+        if (!permissionCheck) {
+
+            console.log("jkhdds");
+            return next({
+            
+                staus: 403,
+                error: 'Unauthorized Access',
+                message: 'Unauthorized Access'
+
+            });
+
+        }
+        
         next();
     } catch (err) {
         next({
