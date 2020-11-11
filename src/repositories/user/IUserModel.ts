@@ -1,4 +1,4 @@
-import * as mangoose from 'mongoose'
+import * as mangoose from 'mongoose';
 
 export default interface IUserModel extends mangoose.Document {
 

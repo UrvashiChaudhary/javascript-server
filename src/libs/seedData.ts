@@ -6,8 +6,7 @@ export default () => {
         .then(res => {
             if (res === 0) {
                 console.log('data seeding in progress');
-               
-                userRepository.create({
+                    userRepository.create({
                     name: 'Head Trainer',
                     role: 'head-trainer',
                     email: 'headtrainer@successive.tech',
@@ -20,9 +19,9 @@ export default () => {
                     password: 123
                 });
             }
-             else{
-            console.log('data is already seeded');    
+             else {
+                    console.log( 'data is already seeded' );
                 }
         })
         .catch(err => console.log(err));
-}
+};

@@ -10,7 +10,7 @@ export default class UserRepository {
         return userModel.findOne(query).lean();
     }
     public find(query, projection?: any, options?: any): any {
-        return userModel.find(query, projection, options)
+        return userModel.find(query, projection, options);
     }
     public create(data: any): Promise<IUserModel> {
         console.log('UserRepository:: create', data);
