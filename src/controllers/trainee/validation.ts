@@ -6,7 +6,7 @@ const config = {
             required: false,
             string: true,
             in: ['body'],
-            custom: (value) =>  {
+            custom: (value) => {
                 console.log('Value', value);
                 throw {
                     error: 'Error Occured', message: 'Message'
@@ -48,7 +48,7 @@ const config = {
             in: ['body'],
             required: true,
             isObject: true,
-            custom: (dataToUpdate) =>  { console.log(); },
+            custom: (dataToUpdate) => { console.log(); },
         }
     }
 };
