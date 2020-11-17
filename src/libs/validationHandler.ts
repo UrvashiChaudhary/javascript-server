@@ -64,11 +64,7 @@ export default ( config ) => ( req, res, next  ) => {
         // Checking for default
         /* if (obj.default) {
             if (isNull(values[0])) {
-<<<<<<< HEAD
-                /values[0] === obj.default;
-=======
-                // values[0] === obj.default;
->>>>>>> b08d52f0565957b86ae41dda82b367f3df41d4c0
+                values[0] === obj.default;
             }
         }*/
         // Checking for number
