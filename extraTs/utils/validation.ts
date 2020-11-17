@@ -1,25 +1,21 @@
 import { validateEmail } from './helpers';
-
 function validateUser(users): void {
-    const validUser: string[] = [];
-    const invalidUser: string[] = [];
-    users.forEach(( user ) => {
+    const V_USERS: string[] = [];
+    const I_USERS: string[] = [];
+    users.forEach((user) => {
         const { traineeEmail, reviewerEmail } = user;
         if (validateEmail(traineeEmail) && validateEmail(reviewerEmail)) {
-            validUser.push(traineeEmail + '', '' + reviewerEmail);
+            V_USERS.push(traineeEmail + ', ' + reviewerEmail);
         }
         else {
-            invalidUser.push(traineeEmail + ', ' + reviewerEmail);
+            I_USERS.push(traineeEmail + '', '' + reviewerEmail);
         }
-
-
     });
-
-    console.log('number of valid users', validUser.length);
-    console.log('Valid Users', validUser);
+    console.log('number of valid users', V_USERS.length);
+    console.log('Valid Users', V_USERS);
     console.log();
-    console.log('number of invalid users', invalidUser.length);
-    console.log('invalid users', invalidUser);
+    console.log('number of invalid users', I_USERS.length);
+    console.log('invalid users', I_USERS);
 
 }
 export { validateUser }; // export validateUser()
