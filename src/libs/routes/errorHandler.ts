@@ -8,6 +8,5 @@ export default (err, req: Request, res: Response, next: NextFunction) => {
     status: err.code,
     message: err.message || 'Error',
     timestamp: new Date()
-
   });
 };

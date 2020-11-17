@@ -1,5 +1,4 @@
 import { validateEmail } from './helpers';
-
 function validateUser(users): void {
     const V_USERS: string[] = [];
     const I_USERS: string[] = [];
@@ -11,10 +10,7 @@ function validateUser(users): void {
         else {
             I_USERS.push(traineeEmail + '', '' + reviewerEmail);
         }
-
-
     });
-
     console.log('number of valid users', V_USERS.length);
     console.log('Valid Users', V_USERS);
     console.log();

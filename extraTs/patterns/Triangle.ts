@@ -1,12 +1,15 @@
-export function equilateralTriangle ( rows: number ): void {
-    for ( let i = 1; i <= rows; i++ ) {
+export function equilateralTriangle(rows: number): void  {
+    for ( let i = 1 ; i <= rows ; i++ ) {
         let sp = '';
-        for ( let j = rows; j >= i; j-- ) {
+        for ( let j = rows ; j >= i ; j-- ) {
             sp = sp + ' ';
         }
-        for ( let k = 1; k <= i; k++ ) {
+        for ( let k = 1 ; k <= i ; k++ ) {
             sp = sp + '* ';
-            }
-            console.log( sp );
         }
-    }
+        console.log(sp);
+        }
+}
+    /* for(let i=2;i<=10;i++){
+    equilateralTriangle(i);
+    }*/

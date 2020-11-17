@@ -9,6 +9,4 @@ function hasPermission(moduleName: object, role: string, permissionType: string)
         console.log('false');
     }
 }
-
 export { hasPermission }; // export function hasPermission()
-
