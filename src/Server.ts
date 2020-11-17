@@ -12,6 +12,7 @@ class Server {
         this.app = express();
     }
     bootstrap() {
+        this.initBodyParser();
         this.setupRouts();
         return this;
     }
@@ -53,6 +54,5 @@ class Server {
         // app.use(notFoundHandler);
         // app.use(errorHandler);
     }
-
 }
 export default Server;

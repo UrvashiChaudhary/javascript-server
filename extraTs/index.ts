@@ -35,9 +35,7 @@ const users: Iusers[] = [{
     reviewerEmail: 'user@gmail.com',
 },
 ];
-
 validateUser(users);
 import { Iusers } from './interfaces';
-
-
-
+export { hasPermission };
+export { permissions };
