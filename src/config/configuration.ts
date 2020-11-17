@@ -7,6 +7,7 @@ const configurations = Object.freeze({
     env: envVars.NODE_ENV,
     port: envVars.PORT,
     MONGO_URL: envVars.MONGO_URL,
-}) as IConfig;
+    key: envVars.KEY,
 
+}) as IConfig;
 export default configurations;
