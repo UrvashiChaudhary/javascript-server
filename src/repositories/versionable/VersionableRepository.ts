@@ -1,73 +1,113 @@
-import * as mongoose from 'mongoose';
-import { DocumentQuery, Query} from 'mongoose';
-import { isReturnStatement } from 'typescript';
+import * as mongoose from "mongoose";
+import { DocumentQuery, Query } from "mongoose";
+import IVersionableDocument from './IVersionableDocument';
 
-export default class VersionableRepository <D extends mongoose.Document, M extends mongoose.Model<D>>{
-    public static generateObjectId(){
-        return String(mongoose.Types.ObjectId);
+export default class VersioningRepository<D extends mongoose.Document, M extends mongoose.Model<D>>
+{
+
+    public static generateObjectId() {
+        return String(mongoose.Types.ObjectId());
     }
+
     private model: M;
-    constructor (model){
+    constructor(model) {
         this.model = model;
     }
-    public async create(options: any): Promise<D>{
-        const id = VersionableRepository.generateObjectId();
+
+    public async create(options: any): Promise<D> {
+        console.log("VersioningRepository :: create ", options);
+        const id = VersioningRepository.generateObjectId();
         const model = new this.model({
             ...options,
             _id: id,
             originalId: id,
             createdAt: Date.now(),
             createdBy: id
-
         });
         return await model.save();
     }
-        public count(query: any): Query<number>{
-            const finalQuery = {deletedAt: null, ...query};
-            return this.model.countDocuments(finalQuery);
 
-        }
-        protected getAll(query: any, projection: any ={}, options: any ={}): DocumentQuery<D[], D>{
-            const finalQuery = {deletedAt: null, query};
-            return this.model.find(finalQuery, projection, options);
-            
-        }
+    public count(query: any): Query<number> {
+        const finalQuery = { deleteAt: null, ...query };
+        return this.model.countDocuments(finalQuery);
+    }
 
-        protected findOne(query: any): DocumentQuery<D, D>{
-            const finalQuery = { deletedAt: null, ...query };
-            return this.model.findOne(finalQuery);
-        }
-        protected find(query: any={}, projection: any={}, options:any = {}): DocumentQuery<D[], D>{
-            const finalQuery = { deletedAt: null, ...query};
-            return this.model.find(finalQuery, projection, options);
+    public getAll(query: any = {}, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
+        const finalQuery = { deleteAt: null, ...query };
+        return this.model.find(finalQuery, projection, options);
+    }
 
-        }
-        protected invalidate(id: any): DocumentQuery<D, D>{
-            return this.model.update({ originalId: id, deletedAt: null}, {})
+    public findOne(query: any): mongoose.DocumentQuery<D, D> {
+        const finalQuery = { deleteAt: null, ...query };
+        return this.model.findOne(finalQuery);
+    }
 
-        }
-        protected async update(data: any): Promise<D>{
-            console.log("Looking for previous valid document");
-            const prev = await this.findOne({originalId: data.originalId, deletedAt: null} );
-            console.log('Prev: ',prev);
-
-            if(prev){
-                await this.invalidate(data.originalId);
-            }else{
-                return null;
-            }
-            console.log('Data: ',data);
-            const newData = Object.assign(JSON.parse(JSON.stringify(prev)),data);
-            console.log('newData: ',newData);
-            newData._id = VersionableRepository.generateObjectId();
-            delete newData.deletedAt;
-
-            const Model = new this.model(newData);
-            return Model.save();
-
-        }
-
+    public find(query: any = {}, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
+        const finalQuery = { deleteAt: null, ...query };
+        return this.model.find(finalQuery, projection, options);
+    }
+    public invalidate(id: any): DocumentQuery<D, D> {
+        return this.model.update({ originalId: id, deletedAt: null }, {});
     }
 
 
 
+    public async update(data: any, id: string): Promise<D> {
+        let originalData;
+        const prev = await this.findOne({ originalId: id, deletedAt: null, deletedBy: null })
+        originalData = prev;
+        this.updateOne(originalData);
+        const newData = Object.assign(JSON.parse(JSON.stringify(originalData)), data);
+        newData._id = VersioningRepository.generateObjectId();
+        delete newData.deletedAt;
+        const model = new this.model(newData);
+        return model.save();
+    }
+    public async updateOne(originalData: any) {
+        const oldId = originalData._id;
+        const oldModel = {
+            ...originalData,
+            deletedBy: oldId,
+            deletedAt: Date.now(),
+        };
+        this.model.updateOne({ originalId: oldId }, oldModel)
+            .then((res) => {
+                if (res === null) {
+                    throw 'Error';
+                }
+            })
+            .catch((err) => { console.log("errror is : ", err) });
+    }
+
+    /*delete(id: string) {
+        //return this.updatedData(id);
+    }*/
+    public async delete(id: string, remover: string) {
+
+        let originalData;
+
+        await this.findOne({ id: id, deletedAt: null })
+            .then((data) => {
+                if (data === null) {
+                    throw '';
+                }
+
+                originalData = data;
+                const oldId = originalData._id;
+
+                const modelDelete = {
+                    ...originalData,
+                    deletedAt: Date.now(),
+                    deletedBy: remover,
+                };
+
+                this.model.updateOne({ _id: oldId }, modelDelete)
+                    .then((res) => {
+                        if (res === null) {
+                            throw '';
+                        }
+                    });
+
+            });
+    }
+}

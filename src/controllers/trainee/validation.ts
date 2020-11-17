@@ -5,7 +5,7 @@ const config = {
             required: true,
             string: true,
             in: ['body'],
-            custom: ( value ) => {
+            custom: (value) => {
                 console.log('Value', value);
                 throw {
                     error: 'Error Occured', message: 'Message'
@@ -21,13 +21,13 @@ const config = {
     delete: {
         id: {
             required: true,
-            errorMessage: 'Id is required', in: ['params']
+            errorMessage: 'Id is required', in: ['query']
         }
     },
 
     get: {
         skip: {
-            required: false, default: 0,
+            required: true, default: 0,
             number: true, in: ['query'],
             errorMessage: 'Skip is invalid',
         },
@@ -47,7 +47,7 @@ const config = {
             in: ['body'],
             required: true,
             isObject: true,
-            custom: (dataToUpdate) => { console.log(); },
+            custom: function (dataToUpdate) { },
         }
     }
 };

@@ -4,7 +4,7 @@ import { isMappedTypeNode } from "typescript";
 import * as mongoose from 'mongoose';
 
 export default interface IVersionableDocument extends mongoose.Document{
-    deletedAt: Date;
+    deletedAt: number;
     originalId: String;
     createdAt: Date;
 }
