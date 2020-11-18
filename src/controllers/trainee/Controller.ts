@@ -62,21 +62,7 @@ class TraineeController {
             console.log('Inside Error', err);
         }
     }
-    /*delete( req, res, next ) {
-        try {
-            console.log( 'Inside delete method of Trianee controller ' );
-            
-            res.send({
-                message: 'Trainee deleted successfully',
-                data: {
-                    name: 'Trainee1',
-                    address: 'noida'
-                }
-            })
-        } catch (err) {
-            console.log( 'Inside Error', err );
-        }
-    }*/
+
     public delete = (req, res, next) => {
         try {
             const id = req.params.id;
@@ -91,7 +77,7 @@ class TraineeController {
                     res.send({
                         message: 'Deleted successfully', result,
                         code: 200,
-                        res: result
+                        data: result
                     });
                 })
         }

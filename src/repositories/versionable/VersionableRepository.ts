@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 import { DocumentQuery, Query } from "mongoose";
 import IVersionableDocument from './IVersionableDocument';
 
-export default class VersioningRepository<D extends mongoose.Document, M extends mongoose.Model<D>>
+export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>>
 {
 
     public static generateObjectId() {
@@ -15,8 +15,8 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
     }
 
     public async create(options: any): Promise<D> {
-        console.log("VersioningRepository :: create ", options);
-        const id = VersioningRepository.generateObjectId();
+        console.log("VersionableRepository :: create ", options);
+        const id = VersionableRepository.generateObjectId();
         const model = new this.model({
             ...options,
             _id: id,
@@ -58,7 +58,7 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         originalData = prev;
         this.updateOne(originalData);
         const newData = Object.assign(JSON.parse(JSON.stringify(originalData)), data);
-        newData._id = VersioningRepository.generateObjectId();
+        newData._id = VersionableRepository.generateObjectId();
         delete newData.deletedAt;
         const model = new this.model(newData);
         return model.save();
@@ -79,9 +79,6 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
             .catch((err) => { console.log("errror is : ", err) });
     }
 
-    /*delete(id: string) {
-        //return this.updatedData(id);
-    }*/
     public async delete(id: string, remover: string) {
 
         let originalData;
