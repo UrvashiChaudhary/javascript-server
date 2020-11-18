@@ -1,14 +1,18 @@
 // create a routes.ts file
-import { Router } from "express";
-import UserController from "./Controller";
+import { Router } from 'express';
+import UserController from './Controller';
 import validationHandler from '../../libs/validationHandler';
 import validation from './validation';
-import authMoiddleWare from "../../libs/routes/authMiddleware";
+import authMiddleWare from '../../libs/routes/authMiddleware';
 
 const UserRouter = Router();
 
+UserRouter.route('/me')
+    .get(authMiddleWare('getUser', 'read'), validationHandler(validation.get), UserController.me);
+
 UserRouter.route('/login')
-    .post(authMoiddleWare())
+    .post(authMiddleWare('getUser', 'read'), validationHandler(validation.create), UserController.login);
+
 
 
 /*UserRouter.route('/')

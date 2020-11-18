@@ -1,21 +1,18 @@
-import * as mongoose from "mongoose";
-import { DocumentQuery, Query } from "mongoose";
+import * as mongoose from 'mongoose';
+import { DocumentQuery, Query } from 'mongoose';
 import IVersionableDocument from './IVersionableDocument';
 
-export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>>
-{
-
+export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     public static generateObjectId() {
         return String(mongoose.Types.ObjectId());
     }
-
     private model: M;
     constructor(model) {
         this.model = model;
     }
 
     public async create(options: any): Promise<D> {
-        console.log("VersionableRepository :: create ", options);
+        console.log('VersionableRepository :: create ', options);
         const id = VersionableRepository.generateObjectId();
         const model = new this.model({
             ...options,
@@ -28,33 +25,33 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     public count(query: any): Query<number> {
-        const finalQuery = { deleteAt: null, ...query };
+        const finalQuery = { deleteAt: undefined, ...query };
         return this.model.countDocuments(finalQuery);
     }
 
     public getAll(query: any = {}, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
-        const finalQuery = { deleteAt: null, ...query };
+        const finalQuery = { deleteAt: undefined, ...query };
         return this.model.find(finalQuery, projection, options);
     }
 
     public findOne(query: any): mongoose.DocumentQuery<D, D> {
-        const finalQuery = { deleteAt: null, ...query };
+        const finalQuery = { deleteAt: undefined, ...query };
         return this.model.findOne(finalQuery);
     }
 
     public find(query: any = {}, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
-        const finalQuery = { deleteAt: null, ...query };
+        const finalQuery = { deleteAt: undefined, ...query };
         return this.model.find(finalQuery, projection, options);
     }
     public invalidate(id: any): DocumentQuery<D, D> {
-        return this.model.update({ originalId: id, deletedAt: null }, {});
+        return this.model.update({ originalId: id, deletedAt: undefined }, {});
     }
 
 
 
     public async update(data: any, id: string): Promise<D> {
         let originalData;
-        const prev = await this.findOne({ originalId: id, deletedAt: null, deletedBy: null })
+        const prev = await this.findOne({ originalId: id, deletedAt: undefined, deletedBy: undefined });
         originalData = prev;
         this.updateOne(originalData);
         const newData = Object.assign(JSON.parse(JSON.stringify(originalData)), data);
@@ -73,20 +70,20 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         this.model.updateOne({ originalId: oldId }, oldModel)
             .then((res) => {
                 if (res === null) {
-                    throw 'Error';
+                    throw Error;
                 }
             })
-            .catch((err) => { console.log("errror is : ", err) });
+            .catch((err) => { console.log('errror is : ', err); });
     }
 
     public async delete(id: string, remover: string) {
 
         let originalData;
 
-        await this.findOne({ id: id, deletedAt: null })
+        await this.findOne({ id1: id, deletedAt: undefined })
             .then((data) => {
                 if (data === null) {
-                    throw '';
+                    // throw ' ';
                 }
 
                 originalData = data;
@@ -101,7 +98,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
                 this.model.updateOne({ _id: oldId }, modelDelete)
                     .then((res) => {
                         if (res === null) {
-                            throw '';
+                            // throw ' ';
                         }
                     });
 

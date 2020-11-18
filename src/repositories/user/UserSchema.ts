@@ -1,8 +1,8 @@
-import * as mongoose from 'mongoose'
+import * as mongoose from 'mongoose';
 
-class UserSchema extends mongoose.Schema{
+class UserSchema extends mongoose.Schema {
 
-    constructor ( collections: any ){
+    constructor ( collections: any ) {
 
         const baseSchema = Object.assign({
 

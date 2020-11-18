@@ -14,10 +14,10 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return userModel.findOne(query).lean();
     }
     public find(query, projection?: any, options?: any): any {
-        return userModel.find(query, projection, options)
+        return userModel.find(query, projection, options);
     }
     public create(data: any): Promise<IUserModel> {
-        console.log('UserRepository:: create', data);
+        console.log('UserRepository: create', data);
         const id = UserRepository.generateObjectId();
         const model = new userModel({
             _id: id,
