@@ -2,7 +2,7 @@ import { Router } from 'express';
 import traineeController from './Controller';
 
 import validationHandler from '../../libs/validationHandler';
-
+import authMiddleware from '../../libs/routes/authMiddleWare';
 import validation from './validation';
 
 import { authMiddleWare } from '../../libs/routes';
