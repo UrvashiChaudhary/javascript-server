@@ -1,15 +1,40 @@
 import * as mongoose from 'mongoose';
+
 export default class VersionableSchema extends mongoose.Schema {
-    constructor(schema, options) {
-        const baseSchema = {
-            createdAt: Date,
-            createdBy: String,
-            updatedAt: Date,
-            updatedBy: String,
-            deletedAt: Date,
-            deletedBy: String,
-            originalId: String,
-        };
-        super({ ...schema, ...baseSchema }, options);
+
+    constructor(options: any, collections: any) {
+        const versionedOptions = Object.assign({
+            originalId: {
+                required: true,
+                type: String,
+            },
+            createdAt: {
+                required: true,
+                default: Date.now(),
+                type: Date,
+            },
+            createdBy: {
+                required: false,
+                type: String,
+            },
+            deletedAt: {
+                required: false,
+                type: Date,
+            },
+            deletedBy: {
+                required: false,
+                type: String,
+            },
+            updatedAt: {
+                required: false,
+                type: Date,
+            },
+            updatedBy: {
+                required: false,
+                type: String,
+            }
+        }, options);
+        // console.log(versionedOptions)
+        super(versionedOptions, collections);
     }
 }
