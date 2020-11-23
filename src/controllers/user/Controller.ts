@@ -1,76 +1,64 @@
+import * as jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import UserRepository from '../../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
+import config from '../../config/configuration';
+import { userModel } from '../../repositories/user/UserModel';
+
+
 class UserController {
     static instance: UserController;
-
     static getInstance() {
         if (UserController.instance) {
             return UserController.instance;
         }
-
         UserController.instance = new UserController();
         return UserController.instance;
     }
-    get(req, res, next) {
-        try {
-            console.log('Inside get method of trainee controller');
-            res.send({
-                message: 'Trainee fetched successfully',
-                data: [
-                    {
-                        name: 'Trainee',
-                        address: 'Noida'
-                    }
-                ]
-            });
-        } catch (err) {
-            console.log('Inside err', err);
-        }
+    me(req: any, res: Response, next: NextFunction) {
+        const { user } = req;
+        return res.status(200).send({ message: 'Me', status: 'ok', data: user });
     }
-    create(req, res, next) {
+    login = (req: Request, res: Response, next: NextFunction) => {
+
+
         try {
-            console.log('Inside post method of trainee controller');
-            res.send({
-                message: 'Trainee fetched successfully',
-                data: [
-                    {
-                        name: 'Trainee1',
-                        address: 'Noida'
+
+
+            const { email, password } = req.body;
+            console.log(email);
+            userModel.findOne({ email1: email }, (err, result) => {
+                if (result) {
+                    if (password === result.password) {
+
+
+                        result.password = bcrypt.hashSync(result.password, 10);
+                        const token = jwt.sign({ result }, 'xMi43lDEhAHie5lL5V6Sord0PJsim4UU');
+                        console.log(result);
+                        console.log(token);
+                        res.send({
+                            data: token,
+                            message: 'Login successfully',
+                            status: 200
+                        });
                     }
-                ]
+                    else {
+                        res.send({
+                            message: 'Password Doesnt Match',
+                            status: 400
+                        });
+                    }
+                }
+                else {
+                    res.send({
+                        message: 'Email is not Registered',
+                        status: 404
+                    });
+                }
             });
-        } catch (err) {
-            console.log('Inside err', err);
         }
-    }
-    update(req, res, next) {
-        try {
-            console.log('Inside put method of trainee controller');
-            res.send({
-                message: 'Trainee fetched successfully',
-                data: [
-                    {
-                        name: 'Trainee2',
-                        address: 'Noida'
-                    }
-                ]
-            });
-        } catch (err) {
-            console.log('Inside err', err);
-        }
-    }
-    delete(req, res, next) {
-        try {
-            console.log('Inside delete method of trainee controller');
-            res.send({
-                message: 'Trainee fetched successfully',
-                data: [
-                    {
-                        name: 'Trainee3',
-                        address: 'Noida'
-                    }
-                ]
-            });
-        } catch (err) {
-            console.log('Inside err', err);
+        catch (err) {
+            res.send(err);
         }
     }
 }

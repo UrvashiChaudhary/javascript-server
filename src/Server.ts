@@ -1,58 +1,65 @@
-// create a class and define methods according to the ticket#39522
 import * as express from 'express';
+import { Request, Response, NextFunction } from 'express';
 import * as bodyParser from 'body-parser';
 import { notFoundHandler, errorHandler } from './libs/routes';
-import notFoundRoute from './libs/routes/notFoundRoute';
-
-import routes from './router';
+import { IConfig } from './config/IConfig';
+import mainRouter from './router';
 import Database from './libs/Database';
+
 class Server {
-    private app;
-    constructor(private config) {
+    app: express.Express;
+    constructor( private config: IConfig ) {
+        this.config = config;
         this.app = express();
     }
+
     bootstrap() {
         this.initBodyParser();
         this.setupRouts();
         return this;
     }
+
     setupRouts() {
         const { app } = this;
-        app.get('/health-check', (req, res, next) => {
+        app.use((req: Request, res: Response, next: NextFunction) => {
+            console.log('Inside First MidleWare');
+            next();
+        });
+
+        app.use('/health-check', (req: Request, res: Response, next: NextFunction) => {
+            console.log('Inside Second MidleWare');
+            res.send('I am OKK');
+
+        });
+
+        this.app.use('/api', mainRouter);
+        app.use('/health-check', (req: Request, res: Response) => {
+            console.log('Inside Second MidleWare');
             res.send('I am fine');
         });
-        app.use('/api', routes);
+
         app.use(notFoundHandler);
         app.use(errorHandler);
+
         return this;
     }
+
     initBodyParser() {
         this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
     }
-    run() {
+
+
+    public run() {
 
         const { app, config: { port, MONGO_URL } } = this;
         Database.open(MONGO_URL)
             .then((res) => {
-                console.log('Successfully inside mongoDB');
-                this.app.listen(port, (err) => {
-                    if (err) {
-                        console.log(err);
-                    }
+                console.log('Successfully connected to Mongo');
+                this.app.listen(port, () => {
                     console.log(`App is running on port ${port}`);
-
-
-
                 });
             })
-            .catch(err => console.log(err));
-        return this;
-
-
-
-        // app.use(notFoundHandler);
-        // app.use(errorHandler);
+            .catch(err => { console.log(err); });
     }
 }
 export default Server;

@@ -1,42 +1,34 @@
 import * as jwt from 'jsonwebtoken';
-import configuration from '../../config/configuration';
+import { Request, Response, NextFunction } from 'express';
+import { userModel } from '../../repositories/user/UserModel';
+import * as bcrypt from 'bcrypt';
 import { hasPermission } from '../permissions';
 import { permissions } from '../constants';
-import { Request, Response, NextFunction } from 'express';
-export default (moduleName: any, permissionType: any) => (req: Request, res: Response, next: NextFunction) => {
-    console.log(' AUTHMIDDLEWARE ', moduleName, permissionType);
+import { error } from 'console';
+import IRequest from '../IRequest';
+
+export default (moduleName: string, permissionType: string) => (req: IRequest, res: Response, next: NextFunction) => {
     try {
-       // console.log('The config is: ', module, permissionType);
+        console.log('The config is : ', moduleName, permissionType);
+        console.log('Header is ', req.headers.authorization);
         const token = req.headers.authorization;
-        const { key } = configuration;
-        const decodeUser = jwt.verify(token, key);
-        console.log('decodeUser', decodeUser);
-        const a: string = decodeUser.role;
-       // if (!decodeUser) {
-        //     return next({
-        //         staus: 403,
-        //         error: 'Unauthorized Access',
-        //         message: 'Unauthorized Access'
-        //     });
-        // }
-        // hasPermission(permissions.getUsers,a,permissionType);
-        const permissionCheck = hasPermission(permissions.getUsers, a, permissionType);
-        console.log(permissionCheck);
-        if (!permissionCheck) {
+        const secret = 'qwertyuiopasdfghjklzxcvbnm123456';
+        const decodeUser = jwt.verify(token, secret);
+        const role = decodeUser.role;
+        console.log('User', decodeUser);
 
-            // console.log("jkhdds");
-            return next({
-                staus: 403,
-                error: 'Unauthorized Access',
-                message: 'Unauthorized Access'
-            });
-
+        if (hasPermission(permissions.getUsers, role, permissionType)) {
+            console.log(`${role} has permission ${permissionType} :true`);
         }
+        else {
+            next({ error: 'unauthorized', message: 'Permission denied', status: 403 });
+        }
+        req.user = decodeUser;
         next();
-    } catch (err) {
+    }
+    catch (err) {
         next({
-            error: 'unauthorized',
+            error: 'Unauthorized',
             code: 403
         });
-    }
-};
+    }};

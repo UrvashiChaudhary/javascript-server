@@ -1,7 +1,4 @@
 // move permissions from permission.js to constants.js
-
-
-
 const permissions: Ipermission = {
     'getUsers': {
         all: ['head-trainer'],
