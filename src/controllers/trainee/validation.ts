@@ -43,12 +43,12 @@ const config = {
         id: {
             required: true, string: true, in: ['body']
         },
-        // dataToUpdate: {
-        //     in: ['body'],
-        //     required: true,
-        //     isObject: true,
-        //     custom: (dataToUpdate) => { console.log(); },
-        // }
+        dataToUpdate: {
+            in: ['body'],
+            required: true,
+            isObject: true,
+            custom: (dataToUpdate) => { console.log(); },
+        }
     }
 };
 export default config;

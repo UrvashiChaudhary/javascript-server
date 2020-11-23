@@ -7,57 +7,59 @@ import mainRouter from './router';
 import Database from './libs/Database';
 
 class Server {
-app: express.Express;
-constructor( private config: IConfig ) {
-this.config = config;
-this.app = express();
-}
+    app: express.Express;
+    constructor( private config: IConfig ) {
+        this.config = config;
+        this.app = express();
+    }
 
-bootstrap() {
-this.initBodyParser();
-this.setupRouts();
-return this;
-}
+    bootstrap() {
+        this.initBodyParser();
+        this.setupRouts();
+        return this;
+    }
 
-setupRouts() {
-const { app } = this;
-app.use(( req: Request, res: Response, next: NextFunction ) => {
-console.log('Inside First MidleWare');
-next();
-});
+    setupRouts() {
+        const { app } = this;
+        app.use((req: Request, res: Response, next: NextFunction) => {
+            console.log('Inside First MidleWare');
+            next();
+        });
 
-app.use('/health-check', (req: Request, res: Response, next: NextFunction) => {
-console.log('Inside Second MidleWare');
-res.send('I am OKK');
+        app.use('/health-check', (req: Request, res: Response, next: NextFunction) => {
+            console.log('Inside Second MidleWare');
+            res.send('I am OKK');
 
-});
+        });
 
-this.app.use('/api', mainRouter);
-app.use('/health-check', (req: Request, res: Response) => {
-console.log('Inside Second MidleWare');
-res.send('I am fine');
-});
+        this.app.use('/api', mainRouter);
+        app.use('/health-check', (req: Request, res: Response) => {
+            console.log('Inside Second MidleWare');
+            res.send('I am fine');
+        });
 
-app.use(notFoundHandler);
-app.use(errorHandler);
+        app.use(notFoundHandler);
+        app.use(errorHandler);
 
-return this;
-}
+        return this;
+    }
 
-initBodyParser() {
-this.app.use(bodyParser.json());
-}
-public run() {
+    initBodyParser() {
+        this.app.use(bodyParser.json());
+    }
 
-const {app, config: { port, MONGO_URL}} = this;
-Database.open(MONGO_URL)
-.then((res) => {
-console.log('uccessfully connected to Mongo');
-this.app.listen(port, () => {
-console.log(`App is running on port ${port}`);
-});
-})
-.catch( err => { console.log( err ); } );
-}
+
+    public run() {
+
+        const { app, config: { port, MONGO_URL } } = this;
+        Database.open(MONGO_URL)
+            .then((res) => {
+                console.log('Successfully connected to Mongo');
+                this.app.listen(port, () => {
+                    console.log(`App is running on port ${port}`);
+                });
+            })
+            .catch(err => { console.log(err); });
+    }
 }
 export default Server;

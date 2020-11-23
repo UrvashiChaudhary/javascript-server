@@ -2,8 +2,8 @@ import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { userModel } from '../../repositories/user/UserModel';
 import * as bcrypt from 'bcrypt';
-import { hasPermission } from '../../libs/permissions';
-import { permissions } from '../../libs/constants';
+import { hasPermission } from '../permissions';
+import { permissions } from '../constants';
 import { error } from 'console';
 import IRequest from '../IRequest';
 
@@ -21,7 +21,7 @@ export default (moduleName: string, permissionType: string) => (req: IRequest, r
             console.log(`${role} has permission ${permissionType} :true`);
         }
         else {
-            next({ error: 'unauthorized', message: 'Permission denied', status: 403 });
+             next({ error: 'unauthorized', message: 'Permission denied', status: 403 });
         }
         req.user = decodeUser;
         next();

@@ -21,17 +21,19 @@ class UserController {
     }
     login = (req: Request, res: Response, next: NextFunction) => {
 
+
         try {
+
 
             const { email, password } = req.body;
             console.log(email);
             userModel.findOne({ email1: email }, (err, result) => {
                 if (result) {
-                    if (bcrypt.compareSync(password, result.password)) {
-                        // result.password = bcrypt.hashSync(result.password, 10);
-                        const token = jwt.sign({ result }, config.secretKey, {
-                            expiresIn: '15m'
-                        });
+                    if (password === result.password) {
+
+
+                        result.password = bcrypt.hashSync(result.password, 10);
+                        const token = jwt.sign({ result }, 'xMi43lDEhAHie5lL5V6Sord0PJsim4UU');
                         console.log(result);
                         console.log(token);
                         res.send({

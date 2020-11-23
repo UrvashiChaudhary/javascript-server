@@ -46,7 +46,7 @@ class TraineeController {
         try {
             const { role, name, id, email, password } = req.body;
             console.log('Inside Update method of Trainee controller ');
-            console.log('id', id);
+            // console.log('id', id);
             userModel.findOne({ originalId: id }, (err, result) => {
                 console.log('id1', result);
 
