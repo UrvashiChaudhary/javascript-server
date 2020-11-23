@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose';
 
-import { userModel } from './UserModel';
+import { userModel, userSchema } from './UserModel';
+
+
 import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
 
@@ -42,7 +44,10 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return super.delete(id, remover);
     }
 
-    public count(query: any = {}): any {
-        return super.count(query);
-    }
+    // public count(query: any = {}): any {
+    //     return super.count(query);
+    // }
+    public list1( sort, skip, limit){
+        return super.list( sort, skip, limit);
+     }
 }

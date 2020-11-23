@@ -22,9 +22,12 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         return await model.save();
     }
 
-    public count(query: any): Query<number> {
-        const finalQuery = { deleteAt: undefined, ...query };
-        return this.model.countDocuments(finalQuery);
+    // public count(query: any): Query<number> {
+    //     const finalQuery = { deleteAt: undefined, ...query };
+    //     return this.model.countDocuments(finalQuery);
+    // }
+    count = () => {
+        return this.model.countDocuments();
     }
 
     public getAll(query: any = {}, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
@@ -46,8 +49,6 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         // console.log("Looking for privious valid document ");
         let originalData;
         const prev = await this.findOne({ originalId: id, deletedAt: undefined, deletedBy: undefined });
-        // console.log("Prev : ",prev);
-        // console.log("Data : ",data);
         originalData = prev;
         this.updateOne(originalData);
         const newData = Object.assign(JSON.parse(JSON.stringify(originalData)), data);
@@ -74,6 +75,12 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
             })
             .catch((err) => { console.log('errror is : ', err); });
     }
+    async list(sort, skip, limit): Promise<D[]> {
+        return this.model.find({ }).sort(sort).skip(Number(skip)).limit(Number(limit));
+    }
+    // countTrainee = () => {
+    //     return this.model.countDocuments({ role: 'trainee', deletedAt: {$: undefined}});
+    // }
 
     public async delete(id: any, remover: any) {
 
