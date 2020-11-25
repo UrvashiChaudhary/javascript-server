@@ -5,6 +5,7 @@ const permissions: Ipermission = {
         read: ['trainee', 'trainer'],
         write: ['trainer'],
         delete: [],
+        update: ['head-trainee']
     },
 };
 import { Ipermission } from './interfaces';

@@ -13,11 +13,11 @@ const traineeRouter: Router = Router();
 traineeRouter.route('/')
     .get(authMiddleWare('getUsers', 'read'), validationHandler(validation.get), traineeController.get)
     // .get(validationHandler(validation.get),traineeController.get)
-    .post(authMiddleWare('getUsers', 'read'), validationHandler(validation.create), traineeController.create)
+    .post(authMiddleWare('getUsers', 'write'), validationHandler(validation.create), traineeController.create)
     //  .post(validationHandler(validation.create),traineeController.create)
-    .put(authMiddleWare('getUsers', 'read'), validationHandler(validation.update), traineeController.update)
+    .put(authMiddleWare('getUsers', 'update'), validationHandler(validation.update), traineeController.update)
     // .put(validationHandler(validation.update),traineeController.update)
-    .delete(authMiddleWare('getUsers', 'read'), validationHandler(validation.delete), traineeController.delete);
+    .delete(authMiddleWare('getUsers', 'delete'), validationHandler(validation.delete), traineeController.delete);
 // .delete(validationHandler(validation.delete),traineeController.update)
 // .get((req, res)=>{console.log("Inside get route"); res.send("Inside get route")})
 // .post((req, res)=>{console.log("Inside post route"); res.send("Inside post route")})

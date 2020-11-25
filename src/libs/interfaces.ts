@@ -4,6 +4,7 @@ interface Ipermission {
         read: string[];
         write: string[];
         delete: string[];
+        update: string[];
     };
 }
 interface Iusers {
