@@ -34,7 +34,7 @@ class UserController {
 
                         result.password = bcrypt.hashSync(result.password, 10);
                         const token = jwt.sign({ result }, 'xMi43lDEhAHie5lL5V6Sord0PJsim4UU');
-                        console.log(result);
+                        console.log('resultt', result);
                         console.log(token);
                         res.send({
                             data: token,

@@ -47,7 +47,7 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
     // public count(query: any = {}): any {
     //     return super.count(query);
     // }
-    public list1( sort, skip, limit){
-        return super.list( sort, skip, limit);
+    public list1( sort, skip, limit, searchBy) {
+        return super.list( sort, skip, limit, searchBy);
      }
 }

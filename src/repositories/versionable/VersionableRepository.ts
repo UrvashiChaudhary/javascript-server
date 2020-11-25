@@ -80,8 +80,8 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
             console.log('errror is : ', err);
         }
     }
-    async list(sort, skip, limit): Promise<D[]> {
-        return this.model.find({ }).sort(sort).skip(Number(skip)).limit(Number(limit));
+    async list(sort, skip, limit, searchBy): Promise<D[]> {
+        return this.model.find({ deletedAt: undefined, ...searchBy}).sort(sort).skip(Number(skip)).limit(Number(limit));
     }
     // countTrainee = () => {
     //     return this.model.countDocuments({ role: 'trainee', deletedAt: {$: undefined}});
