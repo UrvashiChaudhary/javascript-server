@@ -21,7 +21,7 @@ export default (moduleName: string, permissionType: string) => (req: IRequest, r
             console.log(`${role} has permission ${permissionType} :true`);
         }
         else {
-            next({ error: 'unauthorized', message: 'Permission denied', status: 403 });
+             next({ error: 'unauthorized', message: 'Permission denied', status: 403 });
         }
         req.user = decodeUser;
         next();

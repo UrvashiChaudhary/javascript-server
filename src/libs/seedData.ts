@@ -1,4 +1,6 @@
 import UserRepository from '../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
+import config from '../config/configuration';
 
 const userRepository: UserRepository = new UserRepository();
 export default () => {
@@ -10,13 +12,13 @@ export default () => {
                     name: 'Head Trainer',
                     role: 'head-trainer',
                     email: 'headtrainer@successive.tech',
-                    password: 1234
+                    password: bcrypt.hashSync(config.password, 10)
                 });
                 userRepository.create({
                     name: 'Trainee',
                     role: 'trainee',
                     email: 'trainee@successive.tech',
-                    password: 123
+                    password: bcrypt.hashSync(config.password, 10)
                 });
             }
              else {
