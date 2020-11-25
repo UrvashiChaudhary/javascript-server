@@ -52,7 +52,7 @@ class TraineeController {
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside POST method of Trainee controller ');
-            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name });
+            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email });
             console.log('Response is: ', res1);
             res.status(200).send({ message: 'Trainee created successfully', data: res1 });  
         } catch (err) {
