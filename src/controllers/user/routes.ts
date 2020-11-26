@@ -53,6 +53,8 @@ const UserRouter = Router();
  *
  * /api/user/me:
  *   get:
+ *     tags:
+ *       - User
  *     description: Current user Details.
  *     security:
  *       - Bearer: []
@@ -83,6 +85,8 @@ UserRouter.route('/me')
  *
  * /api/user/login:
  *   post:
+ *     tags:
+ *       - User
  *     description: Login Credentials
  *     security:
  *       - Bearer: []

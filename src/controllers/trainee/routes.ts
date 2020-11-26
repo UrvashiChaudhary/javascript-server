@@ -71,6 +71,8 @@ traineeRouter.route('/')
  *
  * /api/trainee:
  *   get:
+ *     tags:
+ *       - Trainee
  *     description: List of all the trainees
  *     security:
  *       - Bearer: []
@@ -133,9 +135,11 @@ traineeRouter.route('/')
  *
  * /api/trainee:
  *   post:
+ *     tags:
+ *       - Trainee
  *     description: Returns the success reponse on creation
  *     security:
- *          - Bearer: []
+ *       - Bearer: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -177,9 +181,11 @@ traineeRouter.route('/')
  *
  * /api/trainee:
  *   put:
+ *     tags:
+ *       - Trainee
  *     description: Returns the success reponse on Updation
  *     security:
- *          - Bearer: []
+ *       - Bearer: []
  *     produces:
  *       - application/json
  *     parameters:
@@ -225,6 +231,8 @@ traineeRouter.route('/')
  *
  * /api/trainee:
  *   delete:
+ *     tags:
+ *       - Trainee
  *     description: Returns the success reponse on deletion
  *     security:
  *       - Bearer: []
