@@ -27,15 +27,15 @@ class UserController {
 
             const { email, password } = req.body;
             console.log(email);
-            userModel.findOne({ email1: email }, (err, result) => {
+            userModel.findOne({ email: email }, (err, result) => {
                 if (result) {
                     if (password === result.password) {
 
 
                         result.password = bcrypt.hashSync(result.password, 10);
                         const token = jwt.sign({ result }, 'xMi43lDEhAHie5lL5V6Sord0PJsim4UU');
-                        console.log('resultt', result);
-                        console.log(token);
+                        // console.log(result);
+                        // console.log(token);
                         res.send({
                             data: token,
                             message: 'Login successfully',
