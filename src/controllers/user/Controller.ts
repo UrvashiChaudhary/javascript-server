@@ -29,7 +29,7 @@ class UserController {
             console.log(email);
             userModel.findOne({ email: email }, (err, result) => {
                 if (result) {
-                    if (password === result.password) {
+                    if (bcrypt.compareSync(password, result.password)) {
 
 
                         result.password = bcrypt.hashSync(result.password, 10);

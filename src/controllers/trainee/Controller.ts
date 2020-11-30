@@ -2,6 +2,7 @@
 import { Request, NextFunction, Response } from 'express';
 import { userModel } from '../../repositories/user/UserModel';
 import UserRepository from '../../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
 class TraineeController {
     static instance: TraineeController;
     static getInstance() {
@@ -64,7 +65,7 @@ class TraineeController {
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside POST method of Trainee controller ');
-            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email, password: req.body.password });
+            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) });
             console.log('Response is: ', res1);
             res.status(200).send({ message: 'Trainee created successfully', data: res1 });
         } catch (err) {
