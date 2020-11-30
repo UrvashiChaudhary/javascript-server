@@ -19,31 +19,29 @@ class TraineeController {
     }
     userRepository: UserRepository = new UserRepository();
     get = async (req: Request, res: Response, next: NextFunction) => {
-        let traineeCount: Number;
         try {
+            const { skip, limit, sort } = req.query;
             console.log('Inside GET method of Trainee controller ');
-            let sort: any;
+            let sort1: any;
 
-            if (req.query.sort === 'email') {
-                sort = { email: -1 };
+            if (sort === 'email') {
+                sort1 = { email: -1 };
             }
-            else if (req.query.sort === 'name') {
-                sort = { name: -1 };
+            else if (sort === 'name') {
+                sort1 = { name: -1 };
             }
-            else{
-                sort = { createdAt: -1 };
-            }   
-            const trainee = await this.userRepository.list1(sort, req.query.skip, req.query.limit);
-            const traineeCount = await this.userRepository.count()
-            console.log('count is ', traineeCount)
-            const res1 = await this.userRepository.getAll();
-                    console.log('Response is: ', res1);
-                    res.status(200).send({ message: 'successfully fetched Trainee', 
-    
-                    totalCount: traineeCount, 
-                    count: trainee.length,
-                    //data: res1,
-                    record: trainee })
+            else {
+                sort1 = { createdAt: -1 };
+            }
+            const trainee = await this.userRepository.list1(sort, skip, limit);
+            const traineeCount = await this.userRepository.count();
+            console.log('count is ', traineeCount);
+            // const res1 = await this.userRepository.getAll();
+            // console.log('Response is: ', res1);
+                res.status(200).send({ message: 'successfully fetched Trainee',
+                totalCount: traineeCount,
+                count: trainee.length,
+                record: trainee });
 
         } catch (err) {
             console.log('Inside Error', err);
@@ -54,7 +52,7 @@ class TraineeController {
             console.log('Inside POST method of Trainee controller ');
             const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email });
             console.log('Response is: ', res1);
-            res.status(200).send({ message: 'Trainee created successfully', data: res1 });  
+            res.status(200).send({ message: 'Trainee created successfully', data: res1 });
         } catch (err) {
             console.log('Inside Error', err);
         }
