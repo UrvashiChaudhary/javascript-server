@@ -26,7 +26,7 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
     }
 
     public getAll(query: any = {}, projection: any = {}, options: any = {}): DocumentQuery<D[], D> {
-        const finalQuery = { deletedBy: undefined, ...query };
+        const finalQuery = { deletedAt: undefined, ...query };
         return this.model.find(finalQuery, projection, options);
     }
 
@@ -75,8 +75,8 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
             console.log('errror is : ', err);
         }
     }
-    async list(sort, skip, limit): Promise<D[]> {
-        return this.model.find({ }).sort(sort).skip(Number(skip)).limit(Number(limit));
+    async list(traineeRole, sort, skip, limit): Promise<D[]> {
+        return this.model.find({ role: traineeRole }).sort(sort).skip(Number(skip)).limit(Number(limit));
     }
     // countTrainee = () => {
     //     return this.model.countDocuments({ role: 'trainee', deletedAt: {$: undefined}});

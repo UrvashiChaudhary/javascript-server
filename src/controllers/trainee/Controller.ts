@@ -33,14 +33,12 @@ class TraineeController {
             else {
                 sort1 = { createdAt: -1 };
             }
-            const trainee = await this.userRepository.list1(sort, skip, limit);
+            const trainee = await this.userRepository.list1('trainee', sort, skip, limit);
             const traineeCount = await this.userRepository.count();
             console.log('count is ', traineeCount);
-            // const res1 = await this.userRepository.getAll();
-            // console.log('Response is: ', res1);
                 res.status(200).send({ message: 'successfully fetched Trainee',
                 totalCount: traineeCount,
-                count: trainee.length,
+                traineeCount: trainee.length,
                 record: trainee });
 
         } catch (err) {
