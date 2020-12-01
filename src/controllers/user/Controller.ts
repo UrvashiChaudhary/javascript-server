@@ -27,7 +27,7 @@ class UserController {
 
             const { email, password } = req.body;
             console.log(email);
-            userModel.findOne({ email: email }, (err, result) => {
+            userModel.findOne({ email: email, deletedAt: undefined }, (err, result) => {
                 if (result) {
                     if (bcrypt.compareSync(password, result.password)) {
 
