@@ -74,16 +74,17 @@ class TraineeController {
     }
     update = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            // const userRepository = new userRepository();
             const { role, name, id, email, password } = req.body;
             console.log('Inside Update method of Trainee controller ');
             console.log('id', id);
-            const result = await this.userRepository.findOne({ originalId: id });
+            const result = await this.userRepository.update(req.body);
             console.log('result', result);
             if (result !== undefined) {
                 // console.log('helllo');
-                const data = await this.userRepository.update({ updatedAt: Date.now(), updatedBy: id, createdBy: id, name: name || result.name, role: role || result.role, email: email || result.email, password: password || result.password }, result._id);
-                console.log('response is ', data);
-                res.status(200).send({ message: 'successfully update', data1: data });
+                // const data = await this.userRepository.update({ updatedAt: Date.now(), updatedBy: id, createdBy: id, name, role, email, password }, result._id);
+                // console.log('response is ', data);
+                res.status(200).send({ message: 'successfully update', data1: [result] });
             }
         } catch (err) {
             console.log('Inside Error', err);
