@@ -50,14 +50,14 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         return this.model.updateOne(query, data);
         }
     public invalidateUpdate(id: any): DocumentQuery<D, D> {
-        return this.model.update({ originalId: id, updatedAt: null }, {});
+        return this.model.update({ originalId: id, updatedAt: undefined }, {});
     }
 
     public async update(data: any): Promise<D> {
         const prev = await this.findOne({ originalId: data.originalId, deletedAt: undefined, deletedBy: undefined });
         console.log('prev', prev);
 
-        if(prev){
+        if (prev) {
             await this.invalidate(data.originalId);
         }
         else {
@@ -70,38 +70,15 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         const model = new this.model(newData);
         console.log('model', model);
         return model.save();
-
     }
-    
     async list(sort, skip, limit, searchBy): Promise<D[]> {
         return this.model.find({ deletedAt: undefined, ...searchBy}).sort(sort).skip(Number(skip)).limit(Number(limit));
     }
-    
-    public async delete(id: any, remover: any) {
-
-        let originalData;
-        try {
-            const data = await this.findOne({ originalId: id, deletedAt: undefined, deletedBy: undefined });
-            if (data === null) {
-                throw undefined;
-            }
-
-            originalData = data;
-            const oldId = originalData._id;
-
-            const modelDelete = {
-                ...originalData,
-                deletedBy: oldId,
-                deletedAt: Date.now(),
-            };
-            try {
-                const res = await this.model.updateOne({ originalId: oldId }, modelDelete);
-                if (res === null) {
-                    throw undefined;
-                }
-            }
-            catch (err) { console.log('errror is : ', err); }
+    public async delete(id: any): Promise<D> {
+        const previous = await this.findOne({ originalId: id, deletedAt: undefined });
+        console.log('id..', id);
+        if (previous) {
+            return await this.invalidate(id);
         }
-        finally { console.log(); }
     }
 }
