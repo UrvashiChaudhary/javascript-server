@@ -18,16 +18,20 @@ class TraineeController {
             console.log('Inside GET method of Trainee controller ');
             let sort: any;
             if (req.query.sort === 'name' || 'email') {
-                sort = { email: -1 };
+                sort = { email: req.query.sortedby };
             }
 
             let search: any;
             if (req.query.searchBy !== undefined) {
-                search = await this.userRepository.list1( sort, req.query.skip, req.query.limit, { name: { $regex: req.query.searchBy } } || { email: { $regex: req.query.searchBy } } );
-            }
+                let search1 = await this.userRepository.list1( sort, req.query.skip, req.query.limit, { name: { $regex: req.query.searchBy } } );
+                let search2 = await this.userRepository.list1( sort, req.query.skip, req.query.limit,  { email: { $regex: req.query.searchBy } } );
+                search = { ...search1, ...search2}
+              }
+
             else {
                 search = await this.userRepository.list1(sort, req.query.skip, req.query.limit, {});
             }
+            const traineeCount = Object.keys(search);
             const traineeCount1 = await this.userRepository.count();
             console.log('count is ', traineeCount1);
             const res1 = await this.userRepository.getAll();
@@ -36,7 +40,7 @@ class TraineeController {
                 message: 'successfully fetched Trainee',
 
                 totalCount: traineeCount1,
-                count: search.length,
+                traineeCount: traineeCount.length,
                 // data: res1,
                 record: search
             });
@@ -87,5 +91,3 @@ class TraineeController {
 }
 
 export default TraineeController.getInstance();
-
-// export default new TraineeController();

@@ -21,11 +21,6 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         });
         return await model.save();
     }
-
-    // public count(query: any): Query<number> {
-    //     const finalQuery = { deleteAt: undefined, ...query };
-    //     return this.model.countDocuments(finalQuery);
-    // }
     count = () => {
         return this.model.countDocuments();
     }
