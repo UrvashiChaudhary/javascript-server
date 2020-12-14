@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 import { userModel, userSchema } from './UserModel';
 
-
+import * as bcrypt from 'bcrypt';
 import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
 
@@ -34,20 +34,17 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return model.save();
     }
 
-    public update(data: any, id: any): Promise<IUserModel> {
+    public update(data: any): Promise<IUserModel> {
+        if ('password' in data) {
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPass = bcrypt.hashSync(data.password, salt);
+            data.password = hashedPass;
+        }
         console.log('UserRepository : update ', data);
-        return super.update(data, id);
+        return super.update(data);
     }
 
-
-    public deleteData(id: any, remover: any) {
-        return super.delete(id, remover);
-    }
-
-    // public count(query: any = {}): any {
-    //     return super.count(query);
-    // }
-    public list1( traineeRole, sort, skip, limit) {
-        return super.list( traineeRole, sort, skip, limit);
+    public list1( sort, skip, limit, searchBy) {
+        return super.list( sort, skip, limit, searchBy);
      }
 }

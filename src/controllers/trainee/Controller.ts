@@ -1,7 +1,7 @@
-// create a class according to instructions that mention in #39523
 import { Request, NextFunction, Response } from 'express';
 import { userModel } from '../../repositories/user/UserModel';
 import UserRepository from '../../repositories/user/UserRepository';
+import * as bcrypt from 'bcrypt';
 class TraineeController {
     static instance: TraineeController;
     static getInstance() {
@@ -11,35 +11,39 @@ class TraineeController {
         TraineeController.instance = new TraineeController();
         return TraineeController.instance;
     }
-    constructor() {
-        this.get = this.get.bind(this);
-        this.create = this.create.bind(this);
-        this.update = this.update.bind(this);
-        this.delete = this.delete.bind(this);
-    }
+
     userRepository: UserRepository = new UserRepository();
     get = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { skip, limit, sort } = req.query;
             console.log('Inside GET method of Trainee controller ');
-            let sort1: any;
+            let sort: any;
+            if (req.query.sort === 'name' || 'email') {
+                sort = { email: req.query.sortedby };
+            }
 
-            if (sort === 'email') {
-                sort1 = { email: -1 };
-            }
-            else if (sort === 'name') {
-                sort1 = { name: -1 };
-            }
+            let search: any;
+            if (req.query.searchBy !== undefined) {
+                let search1 = await this.userRepository.list1( sort, req.query.skip, req.query.limit, { name: { $regex: req.query.searchBy } } );
+                let search2 = await this.userRepository.list1( sort, req.query.skip, req.query.limit,  { email: { $regex: req.query.searchBy } } );
+                search = { ...search1, ...search2}
+              }
+
             else {
-                sort1 = { createdAt: -1 };
+                search = await this.userRepository.list1(sort, req.query.skip, req.query.limit, {});
             }
-            const trainee = await this.userRepository.list1('trainee', sort, skip, limit);
-            const traineeCount = await this.userRepository.count();
-            console.log('count is ', traineeCount);
-                res.status(200).send({ message: 'successfully fetched Trainee',
-                totalCount: traineeCount,
-                traineeCount: trainee.length,
-                record: trainee });
+            const traineeCount = Object.keys(search);
+            const traineeCount1 = await this.userRepository.count();
+            console.log('count is ', traineeCount1);
+            const res1 = await this.userRepository.getAll();
+            console.log('Response is: ', res1);
+            res.status(200).send({
+                message: 'successfully fetched Trainee',
+
+                totalCount: traineeCount1,
+                traineeCount: traineeCount.length,
+                // data: res1,
+                record: search
+            });
 
         } catch (err) {
             console.log('Inside Error', err);
@@ -48,7 +52,7 @@ class TraineeController {
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside POST method of Trainee controller ');
-            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email });
+            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) });
             console.log('Response is: ', res1);
             res.status(200).send({ message: 'Trainee created successfully', data: res1 });
         } catch (err) {
@@ -60,45 +64,30 @@ class TraineeController {
             const { role, name, id, email, password } = req.body;
             console.log('Inside Update method of Trainee controller ');
             console.log('id', id);
-            const result = await this.userRepository.findOne({ originalId: id });
+            const result = await this.userRepository.update(req.body);
             console.log('result', result);
             if (result !== undefined) {
-                // console.log('helllo');
-                const data = await this.userRepository.update({ updatedAt: Date.now(), updatedBy: id, createdBy: id, name: name || result.name, role: role || result.role, email: email || result.email, password: password || result.password }, result._id);
-                console.log('response is ', data);
-                res.status(200).send({ message: 'successfully update', data1: data });
+                res.status(200).send({ message: 'successfully update', data1: [result] });
             }
         } catch (err) {
             console.log('Inside Error', err);
         }
     }
-    delete = async (req: Request, res: Response, next: NextFunction) => {
-
+    public async delete(req: Request, res: Response, next: NextFunction) {
         try {
-            const { id } = req.query;
-            console.log(id);
-            const result1 = await this.userRepository.findOne({ originalId: id });
-            if (result1 !== undefined) {
-                const result = await this.userRepository.deleteData(id, result1.id);
-                console.log('Data deleted successfully');
-                res.status(200).send({ message: 'Data Deleted successfully', data: result });
-            }
-            else {
-                console.log('User not found to be deleted');
-                res.send({
-                    message: 'User not found to be deleted',
-                    code: 404
-                });
-            }
+            const userRepository = new UserRepository();
+            await userRepository.delete(req.query.id);
+            res.status(200).send({
+                message: 'Trainee deleted successfully!',
+                data: { },
+                status: 'success',
+            });
         }
         catch (err) {
-            console.log('Inside error : ', err);
-            res.status(200).send({ message: 'Inside error ', data: err });
+            console.log('error is ', err);
         }
     }
 
 }
 
 export default TraineeController.getInstance();
-
-// export default new TraineeController();
