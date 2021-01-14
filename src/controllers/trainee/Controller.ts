@@ -35,7 +35,7 @@ class TraineeController {
             const traineeCount1 = await this.userRepository.count();
             console.log('count is ', traineeCount1);
             const res1 = await this.userRepository.getAll();
-            console.log('Response is: ', res1);
+            // console.log('Response is: ', res1);
             res.status(200).send({
                 message: 'successfully fetched Trainee',
 
@@ -51,12 +51,12 @@ class TraineeController {
     }
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log('Inside POST method of Trainee controller ');
+            console.log('Inside POST method of Trainee controller <<---->> ', req);
             const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) });
-            console.log('Response is: ', res1);
+            console.log('Response is frontend: ', res1);
             res.status(200).send({ message: 'Trainee created successfully', data: res1 });
         } catch (err) {
-            console.log('Inside Error', err);
+            console.log('Inside Error frontend', err);
         }
     }
     update = async (req: Request, res: Response, next: NextFunction) => {
@@ -76,6 +76,7 @@ class TraineeController {
     public async delete(req: Request, res: Response, next: NextFunction) {
         try {
             const userRepository = new UserRepository();
+            console.log("req.query.id", req.query.id);
             await userRepository.delete(req.query.id);
             res.status(200).send({
                 message: 'Trainee deleted successfully!',

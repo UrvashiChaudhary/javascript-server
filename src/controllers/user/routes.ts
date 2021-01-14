@@ -120,7 +120,7 @@ UserRouter.route('/me')
 
 
 UserRouter.route('/login')
-    .post(authMiddleWare('getUser', 'read'), validationHandler(validation.create), UserController.login);
+    .post(UserController.login);
 
 
 

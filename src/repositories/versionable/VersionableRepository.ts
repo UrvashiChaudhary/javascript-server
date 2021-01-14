@@ -49,7 +49,7 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
     }
 
     public async update(data: any): Promise<D> {
-        const prev = await this.findOne({ originalId: data.originalId, deletedAt: undefined, deletedBy: undefined });
+        const prev = await this.findOne({ originalId: data.id, deletedAt: undefined, deletedBy: undefined });
         console.log('prev', prev);
 
         if (prev) {

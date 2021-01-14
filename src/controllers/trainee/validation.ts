@@ -1,6 +1,6 @@
 const config = {
     create: {
-        id:
+        password:
         {
             required: true,
             string: true,
@@ -12,7 +12,7 @@ const config = {
                 };
             }
         },
-        name: {
+        email: {
             required: true,
             regex: '', in: ['body'],
             errorMessage: 'Name is required',
@@ -27,7 +27,7 @@ const config = {
 
     get: {
         skip: {
-            required: true, default: 0,
+            required: false, default: 0,
             number: true, in: ['query'],
             errorMessage: 'Skip is invalid',
         },
