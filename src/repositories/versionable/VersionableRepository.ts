@@ -40,7 +40,7 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         return this.model.find(finalQuery, projection, options);
     }
     public invalidate(id: string): DocumentQuery<D, D> {
-        const query: any = { originalId: id, deletedAt: { $exists: false } };
+        const query: any = { originalId: id, deletedAt: { $exists: false }};
         const data: any = { deletedAt: Date.now() };
         return this.model.updateOne(query, data);
         }
@@ -50,10 +50,8 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
 
     public async update(data: any): Promise<D> {
         const prev = await this.findOne({ originalId: data.id, deletedAt: undefined, deletedBy: undefined });
-        console.log('prev', prev);
-
         if (prev) {
-            await this.invalidate(data.originalId);
+            await this.invalidate(data.id);
         }
         else {
             return undefined;
