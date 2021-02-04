@@ -64,7 +64,6 @@ class TraineeController {
             const { role, name, id, email, password } = req.body;
             console.log('Inside Update method of Trainee controller ');
             const result = await this.userRepository.update(req.body);
-            console.log('result', result);
             if (result !== undefined) {
                 res.status(200).send({ message: 'successfully update', data1: [result] });
             }
@@ -76,12 +75,14 @@ class TraineeController {
         try {
             const userRepository = new UserRepository();
             console.log("req.query.id", req.query.id);
-            await userRepository.delete(req.query.id);
-            res.status(200).send({
+            const response = await userRepository.delete(req.query.id);
+            if(response){
+              res.send({
                 message: 'Trainee deleted successfully!',
-                data: { },
-                status: 'success',
+                data: response,
+                status: 200,
             });
+            }
         }
         catch (err) {
             console.log('error is ', err);

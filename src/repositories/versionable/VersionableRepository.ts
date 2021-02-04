@@ -71,7 +71,8 @@ export default class VersioningRepository<D extends mongoose.Document, M extends
         const previous = await this.findOne({ originalId: id, deletedAt: undefined });
         console.log('id..', id);
         if (previous) {
-            return await this.invalidate(id);
+            await this.invalidate(id);
+            return previous;
         }
     }
 }
