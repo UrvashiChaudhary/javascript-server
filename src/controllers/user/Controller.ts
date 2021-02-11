@@ -26,16 +26,18 @@ class UserController {
 
 
             const { email, password } = req.body;
-            console.log(email);
+            console.log('emailllll', email);
             userModel.findOne({ email: email, deletedAt: undefined }, (err, result) => {
                 if (result) {
                     if (bcrypt.compareSync(password, result.password)) {
 
 
                         result.password = bcrypt.hashSync(result.password, 10);
-                        const token = jwt.sign({ result }, 'xMi43lDEhAHie5lL5V6Sord0PJsim4UU');
-                        // console.log(result);
-                        // console.log(token);
+                        const token = jwt.sign({ result }, config.secretKey,{
+                          expiresIn: '40m'
+                        });
+                        console.log('aaaaaa', result);
+                        console.log('bbbbb', token);
                         res.send({
                             data: token,
                             message: 'Login successfully',

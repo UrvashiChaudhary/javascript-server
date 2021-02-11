@@ -35,7 +35,7 @@ class TraineeController {
             const traineeCount1 = await this.userRepository.count();
             console.log('count is ', traineeCount1);
             const res1 = await this.userRepository.getAll();
-            console.log('Response is: ', res1);
+            // console.log('Response is: ', res1);
             res.status(200).send({
                 message: 'successfully fetched Trainee',
 
@@ -51,21 +51,20 @@ class TraineeController {
     }
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log('Inside POST method of Trainee controller ');
-            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) });
-            console.log('Response is: ', res1);
+            const {role, name, email, password} = req.body;
+            console.log('Inside POST method of Trainee controller <<---->> ', req);
+            const res1 = await this.userRepository.create({ role, name, email, password: bcrypt.hashSync(password, 10) });
+            console.log('Response is frontend: ', res1);
             res.status(200).send({ message: 'Trainee created successfully', data: res1 });
         } catch (err) {
-            console.log('Inside Error', err);
+            console.log('Inside Error frontend', err);
         }
     }
     update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const { role, name, id, email, password } = req.body;
             console.log('Inside Update method of Trainee controller ');
-            console.log('id', id);
             const result = await this.userRepository.update(req.body);
-            console.log('result', result);
             if (result !== undefined) {
                 res.status(200).send({ message: 'successfully update', data1: [result] });
             }
@@ -76,12 +75,15 @@ class TraineeController {
     public async delete(req: Request, res: Response, next: NextFunction) {
         try {
             const userRepository = new UserRepository();
-            await userRepository.delete(req.query.id);
-            res.status(200).send({
+            console.log("req.query.id", req.query.id);
+            const response = await userRepository.delete(req.query.id);
+            if(response){
+              res.send({
                 message: 'Trainee deleted successfully!',
-                data: { },
-                status: 'success',
+                data: response,
+                status: 200,
             });
+            }
         }
         catch (err) {
             console.log('error is ', err);

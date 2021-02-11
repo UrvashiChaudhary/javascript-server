@@ -7,6 +7,7 @@ import mainRouter from './router';
 import Database from './libs/Database';
 import * as swaggerJsDoc from 'swagger-jsdoc';
 import * as swaggerUI from 'swagger-ui-express';
+import * as cors from 'cors';
 
 class Server {
     app: express.Express;
@@ -70,6 +71,7 @@ class Server {
 
     initBodyParser() {
         this.app.use(bodyParser.json());
+        this.app.use(cors())
     }
 
 

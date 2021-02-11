@@ -8,7 +8,8 @@ const configurations = Object.freeze({
     port: envVars.PORT,
     MONGO_URL: envVars.MONGO_URL,
     password: envVars.password,
-    key: envVars.KEY
+    key: envVars.KEY,
+    secretKey: envVars.secretKey
 
 }) as IConfig;
 export default configurations;
