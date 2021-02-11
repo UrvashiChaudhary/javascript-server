@@ -51,8 +51,9 @@ class TraineeController {
     }
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
+            const {role, name, email, password} = req.body;
             console.log('Inside POST method of Trainee controller <<---->> ', req);
-            const res1 = await this.userRepository.create({ role: req.body.role, name: req.body.name, email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) });
+            const res1 = await this.userRepository.create({ role, name, email, password: bcrypt.hashSync(password, 10) });
             console.log('Response is frontend: ', res1);
             res.status(200).send({ message: 'Trainee created successfully', data: res1 });
         } catch (err) {
